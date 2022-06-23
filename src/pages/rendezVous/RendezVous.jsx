@@ -2,80 +2,128 @@ import React from 'react'
 import "./rendezVous.css"
 
 import { DataGrid } from '@mui/x-data-grid';
-import {Link} from "react-router-dom";
+import {Link,  useNavigate} from "react-router-dom";
+import {useEffect, useState} from 'react';
+import axios from "axios"
+
 
 export default function RendezVous() {
-  const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'patient', headerName: 'patient', width:200, renderCell:(params)=>{
-      return(
-        <div className="patientsLists">
-        <img src={params.row.avatar} alt="" className="patientListImage" />
-        {params.row.patientName}
-        </div>
-      )
-    } },
-   
-    { field: 'date', headerName: 'Date', width: 100 },
-   
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      type: 'number',
-      width: 200,
-      renderCell: (params)=>{
-        return(<div className="actionsButtons">
-          <Link to={"/patientProfile/"+params.row.id}>
-          <button className="acceptButton">Accept</button></Link>
-          <button className="refuseButton">Refuse</button>
+  const [allAppointements, setAllAppointements]=useState([]);
+  const history = useNavigate();
+  
 
-          </div>
-        )
-      }
-    },
-    
-  ];
+
+
+  const isConfirmedField = async (appointement) =>{
+    console.log(appointement.date)
+
+ const body= {
+    "date": appointement.date,
+    "idPatient":appointement.idPatient,
+    "idDoctor":appointement.idDoctor
+  }
+
+    await axios.post("http://localhost:8080/acceptappointment", body)
+    .then((response => {
+      history.push('/redezVousList')
+    }).catch(error => {
+        console.log(error)
+      
+    }))
+  }
+
+
+
+  const isNotConfirmedField = async (appointement) =>{
+    console.log(appointement.date)
+
+ const body= {
+    "date": appointement.date,
+    "idPatient":appointement.idPatient,
+    "idDoctor":appointement.idDoctor
+  }
+
+    await axios.post("http://localhost:8080/denyappointment", body)
+    .then((response => {
+      history.push('/redezVousList')
+    }).catch(error => {
+        console.log(error)
+      
+    }))
+  }
+
+
+  const getallAppointements =  async () =>{
+    await  axios.get("http://localhost:8080/rendezvous")
+   
+     .then((response => {
+      setAllAppointements(response.data);
+       console.log(response);
+      
+     })
+     ).catch((e)=> console.log(e));
+   }
+   
+   useEffect(()=>{
+    getallAppointements();
+  },[]);
+  
+  
+
   
 
 
 
 
 
-  const rows = [
-    { id: 1,
-       patientName: 'nouhaila elfahsi',
-        avatar: "/profil.jpeg", 
-      date:"30/06/2022" },
-      { id: 2,
-        patientName: 'nouhaila elfahsi',
-         avatar: "/profil.jpeg", 
-         date:"30/06/2022" },
-       { id: 3,
-        patientName: 'nouhaila elfahsi',
-         avatar: "/profil.jpeg", 
-         date:"30/06/2022" },
-       { id: 4,
-        patientName: 'nouhaila elfahsi',
-         avatar: "/profil.jpeg", 
-         date:"30/06/2022" },
-       { id: 5,
-        patientName: 'nouhaila elfahsi',
-         avatar: "/profil.jpeg", 
-         date:"30/06/2022" 
-      },
   
-  ];
   return (
     <div className="rendezVousList">
-      <DataGrid
-        rows={rows}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={8}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      />
+      
+       <div className='row'>
+                    <table className='table table-striped table-bordered'>
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>date</th>
+                                <th>Actions</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                        {
+                                allAppointements.map(
+                                   appointement =>
+                                    <tr key={appointement.email}>
+                                      <td><img src="/profil.jpeg" alt="" className="patientListImage" /></td>
+                                        <td>{appointement.nom}  </td>
+                                        <td>{appointement.prenom}</td>
+                                        <td>{appointement.date}</td>
+                                        <td>
+                                        <div className="actionsButtons">
+         
+          <button className="acceptButton" onClick = {() => {isConfirmedField(appointement);
+           window.location.reload(false)}} >Accept</button>
+          <button className="refuseButton" onClick = {() => {isNotConfirmedField(appointement);
+           window.location.reload(false)}}>Refuse</button>
+
+          </div>
+                                        </td>
+
+                                    </tr>
+                                )
+                            }
+
+
+                        </tbody>
+                        </table>
+</div>
     
     </div>
+    
   )
 }

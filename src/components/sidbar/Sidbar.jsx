@@ -1,7 +1,7 @@
 import React from 'react'
 import "./sidbar.css"
 import {LineStyle, Timeline, InsertInvitation, NotificationsActive, People, Report, AccountCircle, Assignment, Email, Message, Feedback} from "@material-ui/icons"
-
+import {Link} from "react-router-dom";
 export default function Sidbar() {
   return (
     <div className='sidebar'>
@@ -28,10 +28,11 @@ export default function Sidbar() {
         <div className="sidebarMenu">
             <h3 className="sidebarTitle">Quick Menu</h3>
             <ul className="sidebarList">
-                <li className="sidebarListItem">
+            <Link to="/patients"> <li className="sidebarListItem" >
+            
                   <People className="sidebarIcon"/>
                   Patients
-                </li>
+                </li></Link>
                 <li className="sidebarListItem">
                   <InsertInvitation className="sidebarIcon"/>
                  My appointements

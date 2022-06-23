@@ -1,5 +1,7 @@
 .rendezVousList{
     flex:4;
+    margin-left: 20px;
+    margin-top: 20px;
 }
 .acceptButton{
     border:none;

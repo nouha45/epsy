@@ -25,17 +25,22 @@
     list-style:none ;
     padding: 5px;
 }
-sidebarListtem{
+.sidebarListItem{
     padding: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     border-radius: 10px;
+    text-decoration: none!important;
 }
 .sidebarListItem.active, .sidebarListItem:hover{
     background-color: rgb(213, 220, 230);
+    text-decoration: none!important;
 }
 .sidebarIcon{
     margin-right: 5px;
     font-size: 20px  !important;
+}
+Link{
+    text-decoration: none!important;
 }

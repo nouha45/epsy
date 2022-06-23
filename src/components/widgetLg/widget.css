@@ -18,6 +18,15 @@ padding: 20px;
 
 
 }
+.widgetLgTr{
+    margin-bottom:20px;
+    padding-bottom: 20px;
+    justify-content: space-between;
+
+}
+
+
+
 .widgetLgPatient{
     display: flex;
     align-items: center;
@@ -46,4 +55,7 @@ padding: 20px;
 .widgetLgButton.Declined{
     background-color: #fff0f1;
     color:#d95087;
+}
+span{
+    margin-left: 10px;
 }

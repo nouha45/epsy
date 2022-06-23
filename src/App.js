@@ -20,6 +20,7 @@ import {
 
 
 function App() {
+  
   return (
     <BrowserRouter>
     <Topbar/>
@@ -28,7 +29,7 @@ function App() {
     <Routes>
     <Route exact path="/" element={<Home />}/>
     <Route path="/patients" element={<PatientList />}/>
-    <Route path="/patientProfile/:patientId" element={<PatientProfile />}/>
+    <Route path="/patientProfile/:email" element={<PatientProfile />}/>
     <Route path="/redezVousList" element={<RendezVous />}/>
     </Routes>
     
